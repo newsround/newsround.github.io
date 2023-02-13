@@ -44,6 +44,7 @@ def generate_html(hot_search):
     <meta content="summary_large_image" name="twitter:card">
     <meta content="@Seiriryu" name="twitter:site">
     <meta content="@Seiriryu" name="twitter:creator">
+    <link rel="icon" href="./static/favicon.ico">
     <style>
     body {
         font-family: Arial, sans-serif;
