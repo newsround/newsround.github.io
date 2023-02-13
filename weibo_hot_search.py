@@ -82,7 +82,7 @@ def generate_html(hot_search):
         <div>
         <ul>
         {% for item in hot_search %}
-            <li><a href='https://s.weibo.com/{{ item.url }}'>{{ item.title }}</a></li>
+            <li><a href='https://s.weibo.com/{{ item.url }}' rel='nofollow'  target='_blank'>{{ item.title }}</a></li>
         {% endfor %}
         </ul>
         </div>
