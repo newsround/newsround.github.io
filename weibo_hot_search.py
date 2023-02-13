@@ -30,8 +30,20 @@ def generate_html(hot_search):
     template = Template('''
     <head>
     <title>微博热搜 - 热门话题排行榜</title>
+    <meta content="微博热搜 - 热门话题排行榜" property="og:title">
     <meta name="description" content="查看微博上的热门话题排行榜。">
+    <meta property="og:description" content="查看微博上的热门话题排行榜。">
+    <meta name="twitter:description" content="查看微博上的热门话题排行榜。">
     <meta name="keywords" content="微博,热搜,热门话题,排行榜">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" name="robots">
+    <meta content="#598cff" name="theme-color">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta content="summary_large_image" name="twitter:card">
+    <meta content="@Seiriryu" name="twitter:site">
+    <meta content="@Seiriryu" name="twitter:creator">
     <style>
     body {
         font-family: Arial, sans-serif;
@@ -75,7 +87,23 @@ def generate_html(hot_search):
         box-shadow: 4px 4px 8px #000000;
         cursor: pointer;
     }
+
+    @media screen and (max-width: 959px) {
+        width: 80%;
+    }
+    @media screen and (max-width: 480px) {
+       width: 80%;
+    }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E4CG1XRFV6"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-E4CG1XRFV6');
+    </script>
     </head>
     <body>
         <h1>微博热搜</h1>
