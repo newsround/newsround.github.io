@@ -31,10 +31,19 @@ jobs:
         run: |
           python weibo_hot_search.py
 
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v4
+      #   with:
+      #     add: "images"
+      #     message: "Update images"
+      #     author_name: "bot"
+      #     author_email: "bot@github.com"
       - name: Commit changes
-        uses: EndBug/add-and-commit@v4
-        with:
-          add: "images"
-          message: "Update images"
-          author_name: "bot"
-          author_email: "bot@github.com"
+        run: |
+          git config --local user.email "bot@github.com"
+          git config --local user.name "bot"
+          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git pull --rebase
+          git add .
+          git commit -m "auto commit by bot"
+          git push
