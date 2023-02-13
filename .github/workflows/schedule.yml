@@ -29,7 +29,7 @@ jobs:
 
       - name: Save Images
         run: |
-          python weibo_hot_Search.py
+          python weibo_hot_search.py
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
