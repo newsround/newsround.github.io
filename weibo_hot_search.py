@@ -90,7 +90,7 @@ def generate_html(hot_search):
     </html>
     ''')
     html = template.render(hot_search=hot_search)
-    with open('./hot_search.html', 'w', encoding='utf-8') as f:
+    with open('./index.html', 'w', encoding='utf-8') as f:
         f.write(html)
 
 
