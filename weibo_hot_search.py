@@ -89,10 +89,14 @@ def generate_html(hot_search):
     }
 
     @media screen and (max-width: 959px) {
-        width: 80% !important;
+        li {
+             width: 80%;
+        }
     }
     @media screen and (max-width: 480px) {
-       width: 80% !important;
+        li {
+             width: 80%;
+        }
     }
     </style>
     <!-- Google tag (gtag.js) -->
