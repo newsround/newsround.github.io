@@ -206,7 +206,11 @@ def generate_html(path, contents):
             </ul>
             <ul>
             {% for item in contents %}
-                <li><a href='{{ item.url }}' rel='nofollow' target='_blank'>{{ item.title }}</a></li>
+                {% if item.hot %}
+                    <li><a href='{{ item.url }}' rel='nofollow' target='_blank'>{{ item.title }}, 热度：{{ item.hot }}</a></li>
+                {% else %}
+                    <li><a href='{{ item.url }}' rel='nofollow' target='_blank'>{{ item.title }}</a></li>
+                {% endif %}
             {% endfor %}
             </ul>
             </div>
