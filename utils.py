@@ -243,7 +243,7 @@ def make_index_html(path, contents):
             <h1>微博和知乎热搜</h1>
             <div>
             <ul>
-                <a href='./archive.html' rel='follow' target='_blank'>历史热搜</a>
+                <a href='https://newsround.github.io/archive.html' rel='follow' target='_blank'>历史热搜</a>
             </ul>
             <ul>
             {% for item in contents %}
