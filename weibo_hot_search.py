@@ -12,6 +12,7 @@ def main():
         get_weibo_top_search()
         get_zhihu_top_question()
         get_zhihu_top_vieo()
+        make_archives_html()
     except Exception as e:
         print(e)
 
