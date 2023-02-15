@@ -7,13 +7,13 @@ def main():
     '''
     主函数
     '''
-    r = get_weibo_top_search()
-    if r:
-        data_processing(r)
-        print('获取热搜完毕，三秒后关闭…')
-    else:
-        print('爬虫失败，检查网络')
-
+    try:
+        get_zhihu_top_search()
+        get_weibo_top_search()
+        get_zhihu_top_question()
+        get_zhihu_top_vieo()
+    except Exception as e:
+        print(e)
 
 if __name__ == '__main__':
     main()

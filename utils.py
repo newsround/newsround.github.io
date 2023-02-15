@@ -9,37 +9,15 @@ from jinja2 import Template
 
 
 def get_weibo_top_search():
-    '''
-    爬虫模块
-    返回r，即网页源码
-    '''
-
     url = "https://s.weibo.com/top/summary?cate=realtimehot"
     headers = {
-        'Host': 's.weibo.com',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-CN,zh;q=0.9',
-        'Connection': 'keep-alive',
-        'Referer': 'https://weibo.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
         "Cookie": "SUB=_2AkMWJrkXf8NxqwJRmP8SxWjnaY12zwnEieKgekjMJRMxHRl-yj9jqmtbtRB6PaaX-IGp-AjmO6k5cS-OH2X9CayaTzVD",
     }
-    try:
-        r = requests.get(url, headers=headers, timeout=10)
-        return r
-    except:
-        return 0
-
-
-def data_processing(r):
-    '''
-    数据处理模块
-    返回data，即｛标题：热度｝字典
-    '''
 
     current_data = []
-    html_xpath = bs4.BeautifulSoup(r.text, 'html.parser')
+    response = requests.get(url, headers=headers, timeout=10)
+    html_xpath = bs4.BeautifulSoup(response.text, 'html.parser')
     https = html_xpath.find_all('td', attrs={'class': 'td-02'})
     for i in range(len(https)):
         text = https[i].text.split('\n')
@@ -50,12 +28,73 @@ def data_processing(r):
             url = attrs.get('href_to')
         else:
             url = attrs.get('href')
-        result = {
+        current_data.append({
             'title': text[1],
             'hot': text[2],
             'url': f'https://s.weibo.com/{url}'
-        }
-        current_data.append(result)
+        })
+    data_handler(current_data)
+
+
+def get_zhihu_top_search():
+    url = "https://www.zhihu.com/api/v4/search/top_search"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+    }
+
+    current_data = []
+    response = requests.get(url, headers=headers, timeout=10)
+    words = json.loads(response.text).get('top_search').get('words')
+    for word in words:
+        current_data.append({
+            'title': word.get('display_query'),
+            'hot': '',
+            'url': f'https://www.zhihu.com/search?q={word.get("query")}'
+        })
+    data_handler(current_data)
+
+
+def get_zhihu_top_vieo():
+    url = "https://www.zhihu.com/api/v3/feed/topstory/hot-lists/zvideo?limit=100"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+    }
+
+    current_data = []
+    response = requests.get(url, headers=headers, timeout=10)
+    targets = json.loads(response.text).get('data')
+    for item in targets:
+        current_data.append({
+            'title': item.get('target').get('title'),
+            'hot': '',
+            'url': item.get('target').get('url')
+        })
+    data_handler(current_data)
+
+
+def get_zhihu_top_question():
+    url = "https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=100"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+    }
+
+    current_data = []
+    response = requests.get(url, headers=headers, timeout=10)
+    targets = json.loads(response.text).get('data')
+    for item in targets:
+        current_data.append({
+            'title': item.get('target').get('title'),
+            'hot': '',
+            'url': f'https://www.zhihu.com/question/{item.get("target").get("id")}'
+        })
+    data_handler(current_data)
+
+
+def data_handler(current_data):
+    '''
+    数据处理模块
+    param:current_data 现在的数据
+    '''
     file_name = dt.now().strftime('%Y%m%d')
     bk_json_path = make_path(f'./raw/{file_name}.json')
     if os.path.exists(bk_json_path):
@@ -80,9 +119,9 @@ def merge_data(current_data, before_data):
     tmp_obj = {}
     merged_data = current_data + before_data
     for data in merged_data:
-        tmp_obj[data.get('url')] = f'{data.get("title")}\n{data.get("hot")}'
-    after_data = [{'title': tmp_obj.get(url).split('\n')[0], 'hot':tmp_obj.get(url).split('\n')[
-        1], 'url':url} for url in tmp_obj]
+        tmp_obj[data.get('title')] = f'{data.get("url")}\n{data.get("hot")}'
+    after_data = [{'title': title, 'url': tmp_obj.get(title).split('\n')[0], 'hot':tmp_obj.get(title).split('\n')[
+        1]} for title in tmp_obj]
     return after_data
 
 
