@@ -1,3 +1,3 @@
-# top news
+# weibo_hot_search
 
-top news search with automatic update every hour.
+Weibo hot news search with automatic update every hour.
