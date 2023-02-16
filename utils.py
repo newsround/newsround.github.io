@@ -8,6 +8,7 @@ from datetime import datetime as dt
 from jinja2 import Template
 
 
+
 def get_weibo_top_search():
     url = "https://s.weibo.com/top/summary?cate=realtimehot"
     headers = {
@@ -44,7 +45,7 @@ def get_zhihu_top_search():
 
     current_data = []
     response = requests.get(url, headers=headers, timeout=10)
-    words = json.loads(response.text).get('top_search').get('words')
+    words = response.json().get('top_search').get('words')
     for word in words:
         current_data.append({
             'title': word.get('display_query'),
@@ -62,7 +63,7 @@ def get_zhihu_top_vieo():
 
     current_data = []
     response = requests.get(url, headers=headers, timeout=10)
-    targets = json.loads(response.text).get('data')
+    targets = response.json().get('data')
     for item in targets:
         current_data.append({
             'title': item.get('target').get('title'),
@@ -80,7 +81,7 @@ def get_zhihu_top_question():
 
     current_data = []
     response = requests.get(url, headers=headers, timeout=10)
-    targets = json.loads(response.text).get('data')
+    targets = response.json().get('data')
     for item in targets:
         current_data.append({
             'title': item.get('target').get('title'),
