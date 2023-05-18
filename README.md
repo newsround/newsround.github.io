@@ -1,3 +1,3 @@
-# weibo_hot_search
+# ZhiHu And Weibo hot search
 
-Weibo hot news search with automatic update every hour.
+ZhiHu And Weibo hot news search with automatic update every hour.
