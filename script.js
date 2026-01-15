@@ -221,7 +221,7 @@ async function loadNews() {
   try {
     let url;
     if (currentQuery) {
-      url = `${API_BASE_URL}/news?content=${encodeURIComponent(
+      url = `${API_BASE_URL}/search_news?content=${encodeURIComponent(
         currentQuery
       )}&page=${currentPage}`;
     } else {
@@ -355,10 +355,6 @@ function showErrorMessage(message) {
             <i class="fas fa-exclamation-triangle"></i>
             <div>
                 <h3>${message}</h3>
-                <p>Please ensure the local server is running (http://localhost:3000)</p>
-                <button onclick="window.location.reload()" style="margin-top: 10px; padding: 10px 20px; background: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    Retry
-                </button>
             </div>
         </div>
     `;
