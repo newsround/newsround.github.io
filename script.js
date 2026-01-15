@@ -1,14 +1,14 @@
-const BASE_URL = "https://newsround-api.onrender.com";
+// Configuration
+const API_BASE_URL = "https://newsround-api.onrender.com";
 let currentCategory = "general";
 let currentPage = 1;
 let currentQuery = "";
 let isLoading = false;
 let hasMore = true;
 
-// DOM元素
+// DOM Elements
 const elements = {
   newsContainer: document.getElementById("news-container"),
-  featuredNews: document.getElementById("featured-news"),
   loadMoreBtn: document.getElementById("load-more-btn"),
   loading: document.getElementById("loading"),
   noResults: document.getElementById("no-results"),
@@ -17,55 +17,38 @@ const elements = {
   themeToggle: document.getElementById("theme-toggle"),
   backToTop: document.getElementById("back-to-top"),
   categoryBtns: document.querySelectorAll(".category-btn"),
-  navLinks: document.querySelectorAll(".nav-link"),
   viewBtns: document.querySelectorAll(".view-btn"),
 };
 
-// 初始化
-document.addEventListener("DOMContentLoaded", () => {
-  initApp();
+// Initialize
+document.addEventListener("DOMContentLoaded", async () => {
+  await initApp();
 });
 
-// 初始化应用
-function initApp() {
-  // 加载主题
+// Initialize App
+async function initApp() {
+  // Load theme
   loadTheme();
 
-  // 加载初始新闻
-  loadFeaturedNews();
-  loadNews();
+  await loadNews();
 
-  // 事件监听器
+  // Setup event listeners
   setupEventListeners();
 }
 
-// 设置事件监听器
+// Setup Event Listeners
 function setupEventListeners() {
-  // 分类按钮
+  // Category buttons
   elements.categoryBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const category = btn.dataset.category;
       if (category !== currentCategory) {
-        setActiveCategory(btn, category);
+        await setActiveCategory(btn, category);
       }
     });
   });
 
-  // 导航链接
-  elements.navLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const category = link.dataset.category;
-      setActiveCategory(null, category);
-
-      // 滚动到新闻部分
-      document.querySelector(".news-section").scrollIntoView({
-        behavior: "smooth",
-      });
-    });
-  });
-
-  // 视图切换
+  // View toggle
   elements.viewBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       elements.viewBtns.forEach((b) => b.classList.remove("active"));
@@ -77,44 +60,112 @@ function setupEventListeners() {
     });
   });
 
-  // 搜索
+  // Search
   elements.searchBtn.addEventListener("click", handleSearch);
-  elements.searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleSearch();
+  elements.searchInput.addEventListener("keypress", async (e) => {
+    if (e.key === "Enter") await handleSearch();
   });
 
-  // 加载更多
+  // Load more
   elements.loadMoreBtn.addEventListener("click", loadMoreNews);
 
-  // 主题切换
+  // Theme toggle
   elements.themeToggle.addEventListener("click", toggleTheme);
 
-  // 滚动事件
+  // Scroll events
   window.addEventListener("scroll", handleScroll);
 
-  // 返回顶部
+  // Back to top
   elements.backToTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // 页脚分类链接
+  // Footer category links
   document
     .querySelectorAll(".footer-links a[data-category]")
     .forEach((link) => {
-      link.addEventListener("click", (e) => {
+      link.addEventListener("click", async (e) => {
         e.preventDefault();
         const category = link.dataset.category;
-        setActiveCategory(null, category);
+        await setActiveCategory(null, category);
         document.querySelector(".news-section").scrollIntoView({
           behavior: "smooth",
         });
       });
     });
-}
 
-// 设置活动分类
-function setActiveCategory(activeBtn, category) {
-  // 更新UI
+  // Mobile menu functionality
+  const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+  const navMenu = document.querySelector(".nav-menu");
+
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      navMenu.style.display =
+        navMenu.style.display === "flex" ? "none" : "flex";
+      if (navMenu.style.display === "flex") {
+        // Show menu
+        navMenu.style.flexDirection = "column";
+        navMenu.style.position = "absolute";
+        navMenu.style.top = "70px";
+        navMenu.style.left = "0";
+        navMenu.style.right = "0";
+        navMenu.style.background = "var(--light-color)";
+        navMenu.style.padding = "20px";
+        navMenu.style.boxShadow = "var(--shadow-lg)";
+        navMenu.style.zIndex = "1000";
+        navMenu.style.gap = "15px";
+
+        // Update background for dark mode
+        if (document.body.classList.contains("dark-mode")) {
+          navMenu.style.background = "var(--gray-light)";
+        }
+      }
+    });
+
+    if (isMobile()) {
+      // Close menu when clicking menu items
+      navMenu.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.style.display = "none";
+        });
+      });
+
+      // Close menu when clicking elsewhere
+      document.addEventListener("click", (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+          navMenu.style.display = "none";
+        }
+      });
+    }
+  }
+
+  // Reset menu display on window resize
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768 && navMenu) {
+      navMenu.style.display = "";
+      navMenu.style.flexDirection = "";
+      navMenu.style.position = "";
+      navMenu.style.top = "";
+      navMenu.style.left = "";
+      navMenu.style.right = "";
+      navMenu.style.background = "";
+      navMenu.style.padding = "";
+      navMenu.style.boxShadow = "";
+      navMenu.style.zIndex = "";
+      navMenu.style.gap = "";
+    }
+  });
+}
+function isMobile() {
+  if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Set Active Category
+async function setActiveCategory(activeBtn, category) {
+  // Update UI
   if (activeBtn) {
     elements.categoryBtns.forEach((btn) => btn.classList.remove("active"));
     activeBtn.classList.add("active");
@@ -124,27 +175,26 @@ function setActiveCategory(activeBtn, category) {
     });
   }
 
-  // 更新导航链接
+  // Update navigation links
   elements.navLinks.forEach((link) => {
     link.classList.toggle("active", link.dataset.category === category);
   });
 
-  // 重置并加载新闻
-  currentCategory = category === "all" ? "general" : category;
+  // Reset and load news
+  currentCategory = category;
   currentPage = 1;
   currentQuery = "";
   elements.searchInput.value = "";
   elements.newsContainer.innerHTML = "";
+  // Hide no results message when resetting
   elements.noResults.style.display = "none";
   elements.loadMoreBtn.style.display = "block";
   hasMore = true;
 
-  // 加载新闻
-  loadFeaturedNews();
-  loadNews();
+  await loadNews();
 }
 
-// 处理搜索
+// Handle Search
 async function handleSearch() {
   const query = elements.searchInput.value.trim();
   if (query) {
@@ -152,98 +202,50 @@ async function handleSearch() {
     currentCategory = "general";
     currentPage = 1;
     elements.newsContainer.innerHTML = "";
+    // Hide no results message when searching
     elements.noResults.style.display = "none";
+    elements.loadMoreBtn.style.display = "block";
     await loadNews();
 
-    // 更新分类按钮状态
+    // Update category button states
     elements.categoryBtns.forEach((btn) => btn.classList.remove("active"));
     elements.categoryBtns[0].classList.add("active");
   }
 }
 
-// 加载特色新闻
-async function loadFeaturedNews() {
-  try {
-    const url = `${BASE_URL}/get_news_by_category?category=${currentCategory}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.articles && data.articles.length > 0) {
-      renderFeaturedNews(data.articles);
-    }
-  } catch (error) {
-    console.error("Error loading featured news:", error);
-    elements.featuredNews.innerHTML = `
-            <div class="featured-main">
-                <h3>新闻加载失败</h3>
-                <p>请检查网络连接或稍后重试</p>
-            </div>
-        `;
-  }
-}
-
-// 渲染特色新闻
-function renderFeaturedNews(articles) {
-  let html = "";
-
-  if (articles.length > 0) {
-    // 主特色新闻
-    const mainArticle = articles[0];
-    html += `
-            <div class="featured-main" onclick="window.open('${
-              mainArticle.url
-            }', '_blank')">
-                <div class="news-category">${currentCategory.toUpperCase()}</div>
-                <h3>${mainArticle.title || "无标题"}</h3>
-                <p>${mainArticle.description || "无描述"}</p>
-                <div class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></div>
-            </div>
-        `;
-
-    // 次特色新闻
-    for (let i = 1; i < Math.min(articles.length, 3); i++) {
-      const article = articles[i];
-      html += `
-                <div class="featured-secondary" onclick="window.open('${
-                  article.url
-                }', '_blank')">
-                    <div class="news-category">${currentCategory.toUpperCase()}</div>
-                    <h4>${article.title || "无标题"}</h4>
-                    <div class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></div>
-                </div>
-            `;
-    }
-  }
-
-  elements.featuredNews.innerHTML = html;
-}
-
-// 加载新闻
+// Load News
 async function loadNews() {
   if (isLoading || !hasMore) return;
 
   isLoading = true;
+  // Hide no results message and load more button when starting to load
+  elements.noResults.style.display = "none";
+  elements.loadMoreBtn.style.display = "none";
   elements.loading.style.display = "block";
-  elements.loadMoreBtn.disabled = true;
 
   try {
     let url;
     if (currentQuery) {
-      url = `${BASE_URL}/everything?content=${encodeURIComponent(
+      url = `${API_BASE_URL}/news?q=${encodeURIComponent(
         currentQuery
-      )}`;
+      )}&page=${currentPage}`;
     } else {
-      url = `${BASE_URL}/get_news_by_category?category=${currentCategory}`;
+      url = `${API_BASE_URL}/news?category=${currentCategory}`;
     }
 
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.articles && data.articles.length > 0) {
+      // Has news data, render it
       renderNews(data.articles);
       hasMore = data.articles.length === 12;
+      // Ensure no results message is hidden
+      elements.noResults.style.display = "none";
     } else {
+      // No news data
       if (currentPage === 1) {
+        // First page has no data, show no results message
         showNoResults();
       }
       hasMore = false;
@@ -251,84 +253,123 @@ async function loadNews() {
   } catch (error) {
     console.error("Error loading news:", error);
     if (currentPage === 1) {
-      elements.newsContainer.innerHTML = `
-                <div class="error-message">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h3>加载失败</h3>
-                    <p>请检查网络连接或稍后重试</p>
-                </div>
-            `;
+      showErrorMessage(
+        "Failed to load news. Please check your connection and try again."
+      );
     }
     hasMore = false;
   } finally {
     isLoading = false;
     elements.loading.style.display = "none";
     elements.loadMoreBtn.disabled = false;
+    // Only show load more button if there's more news
     elements.loadMoreBtn.style.display = hasMore ? "block" : "none";
   }
 }
 
-// 渲染新闻
+// Render News Card
+function renderNewsCard(article, isFeatured = false) {
+  // Select image size based on device width
+  const isMobile = window.innerWidth <= 768;
+  const imageSize = isMobile ? "400" : "800";
+
+  const imageUrl =
+    article.urlToImage ||
+    `https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=${imageSize}&q=80`;
+
+  const publishedDate = new Date(article.publishedAt).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }
+  );
+  const sourceName = article.source?.name || "Unknown Source";
+  const category =
+    currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+
+  // Add special class for featured news
+  const featuredClass = isFeatured ? "featured-main" : "";
+
+  return `
+        <div class="news-card ${featuredClass}" onclick="window.open('${
+    article.url
+  }', '_blank')">
+            <img 
+                src="${imageUrl}" 
+                alt="${article.title}" 
+                class="news-image"
+                loading="${isMobile ? "lazy" : "eager"}"
+                ${isMobile ? 'decoding="async"' : ""}
+            >
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">${category}</span>
+                    <span>${publishedDate}</span>
+                </div>
+                <h3 class="news-title">${article.title || "No Title"}</h3>
+                <p class="news-description">${
+                  article.description || "No description available"
+                }</p>
+                <div class="news-meta">
+                    <span>${sourceName}</span>
+                    <div class="read-more">
+                        Read Full Story <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Render News
 function renderNews(articles) {
+  // Hide no results message before rendering
+  elements.noResults.style.display = "none";
+
   if (currentPage === 1) {
     elements.newsContainer.innerHTML = "";
   }
 
-  const newsHtml = articles
-    .map((article) => {
-      const imageUrl =
-        article.urlToImage ||
-        "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-      const publishedDate = new Date(article.publishedAt).toLocaleDateString(
-        "zh-CN"
-      );
-      const sourceName = article.source?.name || "未知来源";
-
-      return `
-            <div class="news-card" onclick="window.open('${
-              article.url
-            }', '_blank')">
-                <img src="${imageUrl}" alt="${
-        article.title
-      }" class="news-image">
-                <div class="news-content">
-                    <div class="news-meta">
-                        <span class="news-category">${currentCategory.toUpperCase()}</span>
-                        <span>${publishedDate}</span>
-                    </div>
-                    <h3 class="news-title">${article.title || "无标题"}</h3>
-                    <p class="news-description">${
-                      article.description || "暂无描述"
-                    }</p>
-                    <div class="news-meta">
-                        <span>${sourceName}</span>
-                        <div class="read-more">
-                            阅读全文 <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    })
-    .join("");
-
+  const newsHtml = articles.map((article) => renderNewsCard(article)).join("");
   elements.newsContainer.innerHTML += newsHtml;
 }
 
-// 加载更多新闻
-function loadMoreNews() {
+// Load More News
+async function loadMoreNews() {
   currentPage++;
-  loadNews();
+  await loadNews();
 }
 
-// 显示无结果
+// Show No Results
 function showNoResults() {
+  // Clear news container
   elements.newsContainer.innerHTML = "";
-  elements.noResults.style.display = "block";
+  // Hide loading animation and load more button
+  elements.loading.style.display = "none";
   elements.loadMoreBtn.style.display = "none";
+  // Show no results message
+  elements.noResults.style.display = "block";
 }
 
-// 主题功能
+// Show Error Message
+function showErrorMessage(message) {
+  elements.newsContainer.innerHTML = `
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <h3>${message}</h3>
+                <p>Please ensure the local server is running (http://localhost:3000)</p>
+                <button onclick="window.location.reload()" style="margin-top: 10px; padding: 10px 20px; background: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Retry
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Theme Functions
 function loadTheme() {
   const savedTheme = localStorage.getItem("theme") || "light";
   if (savedTheme === "dark") {
@@ -349,16 +390,16 @@ function toggleTheme() {
   }
 }
 
-// 滚动处理
+// Scroll Handling
 function handleScroll() {
-  // 显示/隐藏返回顶部按钮
+  // Show/hide back to top button
   if (window.scrollY > 300) {
     elements.backToTop.classList.add("visible");
   } else {
     elements.backToTop.classList.remove("visible");
   }
 
-  // 无限滚动
+  // Infinite scroll
   const scrollPosition = window.innerHeight + window.scrollY;
   const pageHeight = document.documentElement.scrollHeight;
 
@@ -367,28 +408,16 @@ function handleScroll() {
   }
 }
 
-// 格式化日期
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+// Handle returning from 404 page
+if (localStorage.getItem("selectedCategory")) {
+  const category = localStorage.getItem("selectedCategory");
+  setActiveCategory(null, category);
+  localStorage.removeItem("selectedCategory");
 }
 
-// 错误处理
-function showError(message) {
-  const errorDiv = document.createElement("div");
-  errorDiv.className = "error-message";
-  errorDiv.innerHTML = `
-        <i class="fas fa-exclamation-circle"></i>
-        <p>${message}</p>
-    `;
-
-  elements.newsContainer.prepend(errorDiv);
-
-  setTimeout(() => {
-    errorDiv.remove();
-  }, 5000);
+if (localStorage.getItem("searchQuery")) {
+  const query = localStorage.getItem("searchQuery");
+  document.getElementById("search-input").value = query;
+  handleSearch();
+  localStorage.removeItem("searchQuery");
 }

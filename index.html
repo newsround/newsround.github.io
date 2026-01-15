@@ -1,225 +1,203 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全球新闻速递 | Global News Express</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/2965/2965879.png">
-</head>
-<body>
-    <!-- 导航栏 -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newsround | Global News Aggregator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2965/2965879.png"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-globe-americas"></i>
-                <h1>全球新闻速递</h1>
-            </div>
-            <div class="nav-menu">
-                <a href="#" class="nav-link active" data-category="general">首页</a>
-                <a href="#" class="nav-link" data-category="business">商业</a>
-                <a href="#" class="nav-link" data-category="technology">科技</a>
-                <a href="#" class="nav-link" data-category="entertainment">娱乐</a>
-                <a href="#" class="nav-link" data-category="sports">体育</a>
-                <a href="#" class="nav-link" data-category="health">健康</a>
-                <a href="#" class="nav-link" data-category="science">科学</a>
-            </div>
-            <div class="nav-actions">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="搜索新闻...">
-                    <button id="search-btn"><i class="fas fa-search"></i></button>
-                </div>
-                <button class="theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-globe-americas"></i>
+          <h1>Newsround</h1>
         </div>
-    </nav>
+        <div class="nav-menu">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+          <a href="privacy.html" class="nav-link">Privacy</a>
+          <a href="terms.html" class="nav-link">Terms</a>
+        </div>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav
 
-    <!-- 英雄区域 -->
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h2 class="hero-title">掌握全球动态</h2>
-            <p class="hero-subtitle">实时获取来自世界各地的权威新闻报道</p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <i class="fas fa-newspaper"></i>
-                    <span>每日更新 1000+ 新闻</span>
-                </div>
-                <div class="stat">
-                    <i class="fas fa-globe"></i>
-                    <span>覆盖 50+ 国家</span>
-                </div>
-                <div class="stat">
-                    <i class="fas fa-language"></i>
-                    <span>多语言支持</span>
-                </div>
-            </div>
+      <div class="hero-content">
+        <h2 class="hero-title">Stay Informed Globally</h2>
+        <p class="hero-subtitle">
+          Real-time news coverage from trusted sources worldwide
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <i class="fas fa-newspaper"></i>
+            <span>100+ Daily Updates</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-globe"></i>
+            <span>50+ Countries Covered</span>
+          </div>
         </div>
-        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-overlay"></div>
     </section>
 
-    <!-- 主要新闻区域 -->
+    <!-- Main Content Area -->
     <main class="container">
-        <!-- 分类筛选 -->
-        <div class="category-filter">
-            <h3>新闻分类</h3>
-            <div class="category-buttons">
-                <button class="category-btn active" data-category="all">全部</button>
-                <button class="category-btn" data-category="general">综合</button>
-                <button class="category-btn" data-category="business">商业</button>
-                <button class="category-btn" data-category="technology">科技</button>
-                <button class="category-btn" data-category="entertainment">娱乐</button>
-                <button class="category-btn" data-category="sports">体育</button>
-                <button class="category-btn" data-category="health">健康</button>
-                <button class="category-btn" data-category="science">科学</button>
-            </div>
+      <!-- Category Filter -->
+      <div class="category-filter">
+        <h3>News Categories</h3>
+        <div class="category-buttons">
+          <button class="category-btn active" data-category="general">
+            General
+          </button>
+          <button class="category-btn" data-category="business">
+            Business
+          </button>
+          <button class="category-btn" data-category="technology">
+            Technology
+          </button>
+          <button class="category-btn" data-category="entertainment">
+            Entertainment
+          </button>
+          <button class="category-btn" data-category="sports">Sports</button>
+          <button class="category-btn" data-category="health">Health</button>
+          <button class="category-btn" data-category="science">Science</button>
+        </div>
+      </div>
+
+      <!-- News Grid -->
+      <section class="news-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-newspaper"></i> Latest News
+          </h2>
+          <div class="view-controls">
+            <button class="view-btn active" data-view="grid">
+              <i class="fas fa-th-large"></i>
+            </button>
+            <button class="view-btn" data-view="list">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- 特色新闻 -->
-        <section class="featured-section">
-            <h2 class="section-title"><i class="fas fa-star"></i> 今日头条</h2>
-            <div class="featured-news" id="featured-news">
-                <!-- 特色新闻将通过JavaScript动态加载 -->
-            </div>
-        </section>
+        <!-- Loading Animation -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading news...</p>
+        </div>
 
-        <!-- 新闻网格 -->
-        <section class="news-section">
-            <div class="section-header">
-                <h2 class="section-title"><i class="fas fa-newspaper"></i> 最新新闻</h2>
-                <div class="view-controls">
-                    <button class="view-btn active" data-view="grid">
-                        <i class="fas fa-th-large"></i>
-                    </button>
-                    <button class="view-btn" data-view="list">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 加载动画 -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>正在加载新闻...</p>
-            </div>
+        <!-- News Container -->
+        <div class="news-container" id="news-container">
+          <!-- News cards will be loaded via JavaScript -->
+        </div>
 
-            <!-- 新闻容器 -->
-            <div class="news-container" id="news-container">
-                <!-- 新闻卡片将通过JavaScript动态加载 -->
-            </div>
+        <!-- No Results Message -->
+        <div class="no-results" id="no-results" style="display: none">
+          <i class="fas fa-search"></i>
+          <h3>No news found</h3>
+          <p>Try different search terms or categories</p>
+        </div>
 
-            <!-- 无结果提示 -->
-            <div class="no-results" id="no-results">
-                <i class="fas fa-search"></i>
-                <h3>未找到相关新闻</h3>
-                <p>请尝试其他搜索词或分类</p>
-            </div>
-
-            <!-- 加载更多按钮 -->
-            <div class="load-more-container">
-                <button class="load-more-btn" id="load-more-btn">
-                    <span>加载更多新闻</span>
-                    <i class="fas fa-arrow-down"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- 新闻来源 -->
-        <section class="sources-section">
-            <h2 class="section-title"><i class="fas fa-broadcast-tower"></i> 新闻来源</h2>
-            <div class="sources-grid">
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>BBC新闻</h4>
-                </div>
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>CNN</h4>
-                </div>
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>路透社</h4>
-                </div>
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>美联社</h4>
-                </div>
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>纽约时报</h4>
-                </div>
-                <div class="source-card">
-                    <i class="fas fa-newspaper"></i>
-                    <h4>卫报</h4>
-                </div>
-            </div>
-        </section>
+        <!-- Load More Button -->
+        <div class="load-more-container">
+          <button class="load-more-btn" id="load-more-btn">
+            <span>Load More News</span>
+            <i class="fas fa-arrow-down"></i>
+          </button>
+        </div>
+      </section>
     </main>
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="logo">
-                    <i class="fas fa-globe-americas"></i>
-                    <h3>全球新闻速递</h3>
-                </div>
-                <p class="footer-description">
-                    为您提供最新、最准确的全球新闻资讯，覆盖政治、经济、科技、体育等各个领域。
-                </p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h4>快速链接</h4>
-                <ul class="footer-links">
-                    <li><a href="#">关于我们</a></li>
-                    <li><a href="#">联系我们</a></li>
-                    <li><a href="#">隐私政策</a></li>
-                    <li><a href="#">使用条款</a></li>
-                    <li><a href="#">广告合作</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>新闻分类</h4>
-                <ul class="footer-links">
-                    <li><a href="#" data-category="general">综合新闻</a></li>
-                    <li><a href="#" data-category="business">商业金融</a></li>
-                    <li><a href="#" data-category="technology">科技数码</a></li>
-                    <li><a href="#" data-category="sports">体育竞技</a></li>
-                    <li><a href="#" data-category="health">健康生活</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>订阅新闻</h4>
-                <p>订阅我们的新闻简报，每日获取精选新闻</p>
-                <div class="newsletter">
-                    <input type="email" placeholder="请输入您的邮箱">
-                    <button class="subscribe-btn">订阅</button>
-                </div>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h3>Newsround</h3>
+          </div>
+          <p class="footer-description">
+            Your trusted source for the latest global news coverage across
+            politics, business, technology, sports, and more.
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 全球新闻速递. 保留所有权利. 数据由 <a href="https://newsapi.org/" target="_blank">NewsAPI</a> 提供</p>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
         </div>
+        <div class="footer-section">
+          <h4>News Categories</h4>
+          <ul class="footer-links">
+            <li>
+              <a href="index.html" data-category="general">General News</a>
+            </li>
+            <li>
+              <a href="index.html" data-category="business"
+                >Business & Finance</a
+              >
+            </li>
+            <li>
+              <a href="index.html" data-category="technology">Technology</a>
+            </li>
+            <li><a href="index.html" data-category="sports">Sports</a></li>
+            <li>
+              <a href="index.html" data-category="health">Health & Wellness</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Newsround. All rights reserved. Powered by
+          <a href="https://newsapi.org/" target="_blank">NewsAPI</a>
+        </p>
+      </div>
     </footer>
 
-    <!-- 返回顶部按钮 -->
+    <!-- Back to Top Button -->
     <button class="back-to-top" id="back-to-top">
-        <i class="fas fa-chevron-up"></i>
+      <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- JavaScript文件 -->
+    <!-- JavaScript File -->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
