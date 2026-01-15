@@ -226,11 +226,11 @@ async function loadNews() {
   try {
     let url;
     if (currentQuery) {
-      url = `${API_BASE_URL}/news?q=${encodeURIComponent(
+      url = `${API_BASE_URL}/news?content=${encodeURIComponent(
         currentQuery
       )}&page=${currentPage}`;
     } else {
-      url = `${API_BASE_URL}/news?category=${currentCategory}`;
+      url = `${API_BASE_URL}/get_news_by_category?category=${currentCategory}`;
     }
 
     const response = await fetch(url);
