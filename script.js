@@ -175,11 +175,6 @@ async function setActiveCategory(activeBtn, category) {
     });
   }
 
-  // Update navigation links
-  elements.navLinks.forEach((link) => {
-    link.classList.toggle("active", link.dataset.category === category);
-  });
-
   // Reset and load news
   currentCategory = category;
   currentPage = 1;
