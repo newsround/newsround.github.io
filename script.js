@@ -210,7 +210,7 @@ async function handleSearch() {
 
 // Load News
 async function loadNews() {
-  if (isLoading || !hasMore) return;
+  if (isLoading) return;
 
   isLoading = true;
   // Hide no results message and load more button when starting to load
