@@ -1,6 +1,4 @@
-// 配置
-const API_KEY = 'b1af531d4c644701913be3aada50cfcd'; // 替换为您的NewsAPI密钥
-const BASE_URL = 'https://newsapi.org/v2';
+const BASE_URL = 'https://newsround-api.onrender.com';
 let currentCategory = 'general';
 let currentPage = 1;
 let currentQuery = '';
@@ -161,7 +159,7 @@ function handleSearch() {
 // 加载特色新闻
 async function loadFeaturedNews() {
     try {
-        const url = `${BASE_URL}/top-headlines?country=us&category=${currentCategory}&pageSize=3&apiKey=${API_KEY}`;
+        const url = `${BASE_URL}/get_news_by_category?category=${currentCategory}`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -222,9 +220,9 @@ async function loadNews() {
     try {
         let url;
         if (currentQuery) {
-            url = `${BASE_URL}/everything?q=${encodeURIComponent(currentQuery)}&page=${currentPage}&pageSize=12&sortBy=publishedAt&apiKey=${API_KEY}`;
+            url = `${BASE_URL}/everything?content=${encodeURIComponent(currentQuery)}`;
         } else {
-            url = `${BASE_URL}/top-headlines?country=us&category=${currentCategory}&page=${currentPage}&pageSize=12&apiKey=${API_KEY}`;
+            url = `${BASE_URL}/get_news_by_category?category=${currentCategory}`;
         }
 
         const response = await fetch(url);
