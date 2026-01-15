@@ -1,110 +1,552 @@
 <!DOCTYPE html>
-<html lang='zh-cmn-Hans'>
-
-<head>
-    <title>404 Page not found - 热门话题排行榜</title>
-    <meta content="404 Page not found - 热门话题排行榜" property="og:title">
-    <meta name="description" content="查看历史微博和知乎上的热门话题排行榜。">
-    <meta property="og:description" content="查看历史微博和知乎上的热门话题排行榜。">
-    <meta name="twitter:description" content="查看历史微博和知乎上的热门话题排行榜。">
-    <meta name="keywords" content="微博,知乎,热搜,热门话题,排行榜,历史新闻">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" name="robots">
-    <meta content="#598cff" name="theme-color">
-    <meta content="telephone=no" name="format-detection">
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <meta content="summary_large_image" name="twitter:card">
-    <meta content="@Seiriryu" name="twitter:site">
-    <meta content="@Seiriryu" name="twitter:creator">
-    <link rel="icon" href="./favicon.ico">
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>页面未找到 | 全球新闻速递</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2965/2965879.png"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            background-image: url('./static/background.jpg');
-            /*background-size: cover;*/
-            background-position: center;
+      /* 404页面特定样式 */
+      .error-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .error-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+
+      .dark-mode .error-content {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      }
+
+      .error-container {
+        max-width: 600px;
+        text-align: center;
+        padding: 60px 40px;
+        background: var(--light-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .dark-mode .error-container {
+        background: var(--gray-light);
+      }
+
+      .error-code {
+        font-size: 8rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        line-height: 1;
+      }
+
+      .error-title {
+        font-size: 2.5rem;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      .error-message {
+        color: var(--gray-dark);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 40px;
+      }
+
+      .error-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+
+      .error-btn {
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .error-btn.primary {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .error-btn.primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .error-btn.secondary {
+        background: var(--gray-light);
+        color: var(--dark-color);
+        border: 2px solid var(--gray);
+      }
+
+      .dark-mode .error-btn.secondary {
+        background: var(--gray);
+        border-color: var(--gray-dark);
+      }
+
+      .error-btn.secondary:hover {
+        background: var(--gray);
+        transform: translateY(-2px);
+      }
+
+      .error-search {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .error-search h4 {
+        margin-bottom: 15px;
+        color: var(--dark-color);
+        font-size: 1.1rem;
+      }
+
+      .search-container {
+        display: flex;
+        gap: 10px;
+      }
+
+      .error-search-input {
+        flex: 1;
+        padding: 12px 20px;
+        border: 2px solid var(--gray);
+        border-radius: 50px;
+        background: var(--light-color);
+        color: var(--dark-color);
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .dark-mode .error-search-input {
+        background: var(--gray-light);
+        border-color: var(--gray);
+      }
+
+      .error-search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      .error-search-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .error-search-btn:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+      }
+
+      .error-illustration {
+        margin-bottom: 40px;
+      }
+
+      .error-illustration i {
+        font-size: 8rem;
+        color: var(--primary-color);
+        opacity: 0.8;
+      }
+
+      .error-suggestions {
+        margin-top: 40px;
+        text-align: left;
+      }
+
+      .error-suggestions h4 {
+        margin-bottom: 15px;
+        color: var(--dark-color);
+        font-size: 1.1rem;
+      }
+
+      .suggestion-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .suggestion-item {
+        padding: 10px 15px;
+        background: var(--gray-light);
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+      }
+
+      .dark-mode .suggestion-item {
+        background: var(--gray);
+      }
+
+      .suggestion-item:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateX(5px);
+      }
+
+      .suggestion-item a {
+        display: block;
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .error-code {
+          font-size: 6rem;
         }
 
-        h1 {
-            text-align: center;
-            margin-top: 40px;
-            color: white;
-            text-shadow: 2px 2px 4px #000000;
-            font-size: 36px;
-            font-weight: bold;
+        .error-title {
+          font-size: 2rem;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 40px auto;
-            width: 80%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        .error-actions {
+          flex-direction: column;
+          align-items: center;
         }
 
-        li {
-            width: 30%;
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 2px 2px 4px #000000;
-            color: black;
-            font-size: 20px;
-            font-weight: bold;
-            transition: all 0.5s;
+        .error-btn {
+          width: 100%;
+          max-width: 300px;
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .error-code {
+          font-size: 4rem;
         }
 
-        li:hover {
-            transform: scale(1.1);
-            box-shadow: 4px 4px 8px #000000;
-            cursor: pointer;
+        .error-title {
+          font-size: 1.5rem;
         }
 
-        .history-search {
-            font-size: 2em;
-            color: #fff;
-            text-shadow: 2px 2px 4px #000000;
+        .error-container {
+          padding: 40px 20px;
         }
-
-        @media screen and (max-width: 959px) {
-            li {
-                width: 80%;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            li {
-                width: 80%;
-            }
-        }
+      }
     </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E4CG1XRFV6"></script>
+  </head>
+  <body class="error-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-globe-americas"></i>
+          <h1>全球新闻速递</h1>
+        </div>
+        <div class="nav-menu">
+          <a href="#" class="nav-link active" data-category="general">首页</a>
+          <a href="#" class="nav-link" data-category="business">商业</a>
+          <a href="#" class="nav-link" data-category="technology">科技</a>
+          <a href="#" class="nav-link" data-category="entertainment">娱乐</a>
+          <a href="#" class="nav-link" data-category="sports">体育</a>
+          <a href="#" class="nav-link" data-category="health">健康</a>
+          <a href="#" class="nav-link" data-category="science">科学</a>
+        </div>
+        <div class="nav-actions">
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="搜索新闻..." />
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- 404内容 -->
+    <main class="error-content">
+      <div class="error-container">
+        <div class="error-illustration">
+          <i class="fas fa-compass"></i>
+        </div>
+
+        <div class="error-code">404</div>
+
+        <h1 class="error-title">页面走失了</h1>
+
+        <p class="error-message">
+          抱歉，您访问的页面可能已被移动、删除或暂时不可用。<br />
+          请检查URL是否正确，或返回首页继续浏览新闻。
+        </p>
+
+        <div class="error-actions">
+          <a href="index.html" class="error-btn primary">
+            <i class="fas fa-home"></i>
+            返回首页
+          </a>
+          <a href="index.html#news-container" class="error-btn secondary">
+            <i class="fas fa-newspaper"></i>
+            浏览新闻
+          </a>
+          <button onclick="window.history.back()" class="error-btn secondary">
+            <i class="fas fa-arrow-left"></i>
+            返回上一页
+          </button>
+        </div>
+
+        <div class="error-search">
+          <h4>或者，搜索您感兴趣的内容</h4>
+          <div class="search-container">
+            <input
+              type="text"
+              class="error-search-input"
+              id="error-search-input"
+              placeholder="搜索新闻..."
+            />
+            <button class="error-search-btn" id="error-search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="error-suggestions">
+          <h4>热门新闻分类</h4>
+          <div class="suggestion-list">
+            <div class="suggestion-item">
+              <a href="index.html#news-container" data-category="technology">
+                <i class="fas fa-microchip"></i> 科技新闻
+              </a>
+            </div>
+            <div class="suggestion-item">
+              <a href="index.html#news-container" data-category="business">
+                <i class="fas fa-chart-line"></i> 商业金融
+              </a>
+            </div>
+            <div class="suggestion-item">
+              <a href="index.html#news-container" data-category="sports">
+                <i class="fas fa-running"></i> 体育竞技
+              </a>
+            </div>
+            <div class="suggestion-item">
+              <a href="index.html#news-container" data-category="health">
+                <i class="fas fa-heartbeat"></i> 健康生活
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h3>全球新闻速递</h3>
+          </div>
+          <p class="footer-description">
+            为您提供最新、最准确的全球新闻资讯，覆盖政治、经济、科技、体育等各个领域。
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>快速链接</h4>
+          <ul class="footer-links">
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">联系我们</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">使用条款</a></li>
+            <li><a href="#">广告合作</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>新闻分类</h4>
+          <ul class="footer-links">
+            <li><a href="#" data-category="general">综合新闻</a></li>
+            <li><a href="#" data-category="business">商业金融</a></li>
+            <li><a href="#" data-category="technology">科技数码</a></li>
+            <li><a href="#" data-category="sports">体育竞技</a></li>
+            <li><a href="#" data-category="health">健康生活</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>订阅新闻</h4>
+          <p>订阅我们的新闻简报，每日获取精选新闻</p>
+          <div class="newsletter">
+            <input type="email" placeholder="请输入您的邮箱" />
+            <button class="subscribe-btn">订阅</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 全球新闻速递. 保留所有权利. 数据由
+          <a href="https://newsapi.org/" target="_blank">NewsAPI</a> 提供
+        </p>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="back-to-top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+      // 主题功能
+      document.addEventListener("DOMContentLoaded", () => {
+        // 加载主题
+        loadTheme();
 
-        gtag('config', 'G-E4CG1XRFV6');
+        // 设置事件监听器
+        setupErrorPageListeners();
+      });
+
+      function loadTheme() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+          document.getElementById("theme-toggle").innerHTML =
+            '<i class="fas fa-sun"></i>';
+        }
+      }
+
+      function setupErrorPageListeners() {
+        // 主题切换
+        const themeToggle = document.getElementById("theme-toggle");
+        themeToggle.addEventListener("click", toggleTheme);
+
+        // 搜索功能
+        const searchInput = document.getElementById("error-search-input");
+        const searchBtn = document.getElementById("error-search-btn");
+
+        searchBtn.addEventListener("click", handleSearch);
+        searchInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") handleSearch();
+        });
+
+        // 返回顶部按钮
+        const backToTop = document.getElementById("back-to-top");
+        backToTop.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // 滚动显示返回顶部按钮
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+            backToTop.classList.add("visible");
+          } else {
+            backToTop.classList.remove("visible");
+          }
+        });
+
+        // 分类链接
+        document.querySelectorAll(".suggestion-item a").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const category = link.dataset.category;
+            localStorage.setItem("selectedCategory", category);
+            window.location.href = "index.html#news-container";
+          });
+        });
+
+        // 页脚分类链接
+        document
+          .querySelectorAll(".footer-links a[data-category]")
+          .forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              const category = link.dataset.category;
+              localStorage.setItem("selectedCategory", category);
+              window.location.href = "index.html#news-container";
+            });
+          });
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+
+        const themeToggle = document.getElementById("theme-toggle");
+        if (document.body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+          localStorage.setItem("theme", "light");
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+      }
+
+      function handleSearch() {
+        const query = document
+          .getElementById("error-search-input")
+          .value.trim();
+        if (query) {
+          localStorage.setItem("searchQuery", query);
+          window.location.href = "index.html";
+        }
+      }
+
+      // 导航栏搜索
+      const navSearchBtn = document.getElementById("search-btn");
+      const navSearchInput = document.getElementById("search-input");
+
+      navSearchBtn.addEventListener("click", () => {
+        const query = navSearchInput.value.trim();
+        if (query) {
+          localStorage.setItem("searchQuery", query);
+          window.location.href = "index.html";
+        }
+      });
+
+      navSearchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const query = navSearchInput.value.trim();
+          if (query) {
+            localStorage.setItem("searchQuery", query);
+            window.location.href = "index.html";
+          }
+        }
+      });
     </script>
-</head>
-
-<body>
-    <h1 style="font-size: 5em;">404</h1>
-    <div>
-        <div style="display:flex;justify-content: center; ">
-            <a href='/' rel='follow' class="history-search">返回主页</a>
-        </div>
-        <div style="display:flex;justify-content: center; font-size: 2em;">
-            <h2>没有找到相关知乎和微博新闻</h2>
-        </div>
-    </div>
-</body>
-
+  </body>
 </html>
