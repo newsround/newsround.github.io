@@ -287,10 +287,12 @@ function renderNewsCard(article, isFeatured = false) {
   // Add special class for featured news
   const featuredClass = isFeatured ? "featured-main" : "";
 
+  const newsId = Date.now() + Math.random().toString(36).substr(2, 9);
+
   return `
-        <div class="news-card ${featuredClass}" onclick="window.open('${
-    article.url
-  }', '_blank')">
+        <div class="news-card ${featuredClass}" onclick="viewNewsDetail('${encodeURIComponent(
+    JSON.stringify(article)
+  )}', '${newsId}')">
             <img 
                 src="${imageUrl}" 
                 alt="${article.title}" 
@@ -316,6 +318,18 @@ function renderNewsCard(article, isFeatured = false) {
             </div>
         </div>
     `;
+}
+
+function viewNewsDetail(articleJson, newsId) {
+  try {
+    const article = JSON.parse(decodeURIComponent(articleJson));
+    localStorage.setItem("currentNews", JSON.stringify(article));
+    article.category = currentCategory;
+    window.location.href = `detail.html?id=${newsId}`;
+  } catch (error) {
+    console.error("Error viewing news detail:", error);
+    window.open(article.url, "_blank");
+  }
 }
 
 // Render News

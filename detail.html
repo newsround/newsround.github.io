@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Detail | Newsround</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2965/2965879.png"
+    />
+    <style>
+      /* News Detail Page Specific Styles */
+      .news-detail-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .detail-content {
+        flex: 1;
+        padding: 100px 20px 80px;
+        background: var(--light-color);
+      }
+
+      .dark-mode .detail-content {
+        background: var(--gray-light);
+      }
+
+      .detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Back Button */
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        padding: 10px 20px;
+        background: var(--gray-light);
+        color: var(--dark-color);
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        font-family: inherit;
+      }
+
+      .dark-mode .back-button {
+        background: var(--gray);
+      }
+
+      .back-button:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateX(-5px);
+      }
+
+      /* News Detail Card */
+      .detail-card {
+        background: var(--light-color);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        margin-bottom: 40px;
+      }
+
+      .dark-mode .detail-card {
+        background: var(--gray-light);
+      }
+
+      .detail-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+      }
+
+      .detail-header {
+        padding: 40px;
+        border-bottom: 1px solid var(--gray-light);
+      }
+
+      .dark-mode .detail-header {
+        border-bottom-color: var(--gray);
+      }
+
+      .detail-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .detail-category {
+        background: var(--primary-color);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+
+      .detail-date {
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      .detail-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+        font-family: "Playfair Display", serif;
+      }
+
+      .detail-source {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .detail-author {
+        color: var(--gray);
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+
+      .detail-body {
+        padding: 40px;
+      }
+
+      .detail-description {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: var(--gray-dark);
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--gray-light);
+      }
+
+      .dark-mode .detail-description {
+        border-bottom-color: var(--gray);
+      }
+
+      .detail-content-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--dark-color);
+        margin-bottom: 30px;
+      }
+
+      .detail-content-text p {
+        margin-bottom: 20px;
+      }
+
+      .detail-content-text h2,
+      .detail-content-text h3 {
+        margin: 30px 0 15px;
+        color: var(--dark-color);
+      }
+
+      .detail-content-text ul,
+      .detail-content-text ol {
+        margin: 20px 0;
+        padding-left: 20px;
+      }
+
+      .detail-content-text li {
+        margin-bottom: 10px;
+      }
+
+      .detail-content-text blockquote {
+        border-left: 4px solid var(--primary-color);
+        padding-left: 20px;
+        margin: 30px 0;
+        font-style: italic;
+        color: var(--gray-dark);
+      }
+
+      /* Related Articles */
+      .related-articles {
+        margin-top: 60px;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        color: var(--dark-color);
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      /* Share Buttons */
+      .share-section {
+        padding: 30px 40px;
+        border-top: 1px solid var(--gray-light);
+        background: var(--gray-light);
+      }
+
+      .dark-mode .share-section {
+        background: var(--gray);
+        border-top-color: var(--gray);
+      }
+
+      .share-title {
+        font-size: 1.2rem;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+      }
+
+      .share-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .share-button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 25px;
+        border-radius: var(--border-radius);
+        background: var(--light-color);
+        color: var(--dark-color);
+        transition: var(--transition);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        font-family: inherit;
+      }
+
+      .dark-mode .share-button {
+        background: var(--gray-light);
+      }
+
+      .share-button:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      .share-button.facebook {
+        background: #1877f2;
+        color: white;
+      }
+
+      .share-button.twitter {
+        background: #1da1f2;
+        color: white;
+      }
+
+      .share-button.linkedin {
+        background: #0077b5;
+        color: white;
+      }
+
+      .share-button.whatsapp {
+        background: #25d366;
+        color: white;
+      }
+
+      /* Original Source Link */
+      .original-source {
+        text-align: center;
+        padding: 30px;
+        background: var(--gray-light);
+        border-radius: var(--border-radius);
+        margin-top: 40px;
+      }
+
+      .dark-mode .original-source {
+        background: var(--gray);
+      }
+
+      .original-source a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: var(--transition);
+      }
+
+      .original-source a:hover {
+        gap: 15px;
+      }
+
+      /* Loading State */
+      .loading-detail {
+        text-align: center;
+        padding: 100px 20px;
+      }
+
+      .loading-detail .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--gray-light);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Error State */
+      .error-state {
+        text-align: center;
+        padding: 100px 20px;
+      }
+
+      .error-state i {
+        font-size: 4rem;
+        color: var(--danger-color);
+        margin-bottom: 20px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .detail-content {
+          padding: 80px 15px 40px;
+        }
+
+        .detail-image {
+          height: 300px;
+        }
+
+        .detail-title {
+          font-size: 2rem;
+        }
+
+        .detail-header,
+        .detail-body {
+          padding: 30px 20px;
+        }
+
+        .detail-meta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .related-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .share-buttons {
+          flex-direction: column;
+        }
+
+        .share-button {
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .detail-title {
+          font-size: 1.6rem;
+        }
+
+        .detail-image {
+          height: 250px;
+        }
+
+        .detail-description {
+          font-size: 1.1rem;
+        }
+
+        .detail-content-text {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="news-detail-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-globe-americas"></i>
+          <h1>Newsround</h1>
+        </div>
+        <div class="nav-menu">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+          <a href="privacy.html" class="nav-link">Privacy</a>
+          <a href="terms.html" class="nav-link">Terms</a>
+        </div>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- News Detail Content -->
+    <main class="detail-content">
+      <div class="detail-container">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Back to News
+        </button>
+
+        <!-- News Detail Card -->
+        <div class="detail-card" id="detail-card">
+          <!-- Loading State -->
+          <div class="loading-detail" id="loading-state">
+            <div class="spinner"></div>
+            <p>Loading article...</p>
+          </div>
+
+          <!-- Error State -->
+          <div class="error-state" id="error-state" style="display: none">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>Article Not Found</h2>
+            <p>Unable to load the requested article.</p>
+          </div>
+
+          <!-- Content (will be populated by JavaScript) -->
+          <img
+            id="detail-image"
+            class="detail-image"
+            style="display: none"
+            alt="News Image"
+          />
+
+          <div class="detail-header" style="display: none" id="detail-header">
+            <div class="detail-meta">
+              <span id="detail-category" class="detail-category">General</span>
+              <span id="detail-date" class="detail-date">Loading...</span>
+            </div>
+
+            <h1 id="detail-title" class="detail-title">Loading News...</h1>
+
+            <div class="detail-source">
+              <i class="fas fa-newspaper"></i>
+              <span id="detail-source">Source: Loading...</span>
+            </div>
+
+            <div id="detail-author" class="detail-author">
+              Author: Loading...
+            </div>
+          </div>
+
+          <div class="detail-body" style="display: none" id="detail-body">
+            <div id="detail-description" class="detail-description">
+              Loading news content...
+            </div>
+
+            <div id="detail-content-text" class="detail-content-text">
+              <!-- Content will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Share Buttons -->
+          <div class="share-section" style="display: none" id="share-section">
+            <h3 class="share-title">Share this article</h3>
+            <div class="share-buttons">
+              <button class="share-button facebook" id="share-facebook">
+                <i class="fab fa-facebook-f"></i>
+                Facebook
+              </button>
+              <button class="share-button twitter" id="share-twitter">
+                <i class="fab fa-twitter"></i>
+                Twitter
+              </button>
+              <button class="share-button linkedin" id="share-linkedin">
+                <i class="fab fa-linkedin-in"></i>
+                LinkedIn
+              </button>
+              <button class="share-button whatsapp" id="share-whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Original Source Link -->
+        <div class="original-source" style="display: none" id="original-source">
+          <a
+            href="#"
+            id="original-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fas fa-external-link-alt"></i>
+            Read full article on original source
+          </a>
+        </div>
+
+        <!-- Related Articles -->
+        <div
+          class="related-articles"
+          id="related-articles"
+          style="display: none"
+        >
+          <h2 class="section-title">
+            <i class="fas fa-newspaper"></i>
+            Related Articles
+          </h2>
+          <div class="related-grid" id="related-grid">
+            <!-- Related articles will be loaded by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h3>Newsround</h3>
+          </div>
+          <p class="footer-description">
+            Your trusted source for the latest global news coverage.
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>News Categories</h4>
+          <ul class="footer-links">
+            <li>
+              <a href="index.html" data-category="general">General News</a>
+            </li>
+            <li><a href="index.html" data-category="business">Business</a></li>
+            <li>
+              <a href="index.html" data-category="technology">Technology</a>
+            </li>
+            <li><a href="index.html" data-category="sports">Sports</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Newsround. All rights reserved. Powered by
+          <a href="https://newsapi.org/" target="_blank">NewsAPI</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+      // News Detail Data
+      let currentArticle = null;
+      let relatedArticles = [];
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        initNewsDetailPage();
+      });
+
+      // Initialize News Detail Page
+      function initNewsDetailPage() {
+        // Load theme
+        loadTheme();
+
+        // Load article data
+        loadArticleDetail();
+
+        // Setup event listeners
+        setupEventListeners();
+      }
+
+      // Load Theme
+      function loadTheme() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+          document.getElementById("theme-toggle").innerHTML =
+            '<i class="fas fa-sun"></i>';
+        }
+      }
+
+      // Setup Event Listeners
+      function setupEventListeners() {
+        // Theme toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        themeToggle.addEventListener("click", toggleTheme);
+
+        // Mobile menu functionality
+        setupMobileMenu();
+
+        // Setup share buttons
+        setupShareButtons();
+      }
+
+      // Toggle Theme
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+          document.getElementById("theme-toggle").innerHTML =
+            '<i class="fas fa-sun"></i>';
+        } else {
+          localStorage.setItem("theme", "light");
+          document.getElementById("theme-toggle").innerHTML =
+            '<i class="fas fa-moon"></i>';
+        }
+      }
+
+      // Setup Mobile Menu
+      function setupMobileMenu() {
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const navMenu = document.querySelector(".nav-menu");
+
+        if (mobileMenuBtn && navMenu) {
+          mobileMenuBtn.addEventListener("click", () => {
+            const isVisible = navMenu.style.display === "flex";
+            navMenu.style.display = isVisible ? "none" : "flex";
+
+            if (!isVisible) {
+              navMenu.style.flexDirection = "column";
+              navMenu.style.position = "absolute";
+              navMenu.style.top = "70px";
+              navMenu.style.left = "0";
+              navMenu.style.right = "0";
+              navMenu.style.background = document.body.classList.contains(
+                "dark-mode"
+              )
+                ? "var(--gray-light)"
+                : "var(--light-color)";
+              navMenu.style.padding = "20px";
+              navMenu.style.boxShadow = "var(--shadow-lg)";
+              navMenu.style.zIndex = "1000";
+              navMenu.style.gap = "15px";
+            }
+          });
+
+          navMenu.querySelectorAll(".nav-link").forEach((link) => {
+            link.addEventListener("click", () => {
+              navMenu.style.display = "none";
+            });
+          });
+
+          document.addEventListener("click", (e) => {
+            if (
+              !mobileMenuBtn.contains(e.target) &&
+              !navMenu.contains(e.target)
+            ) {
+              navMenu.style.display = "none";
+            }
+          });
+        }
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 768 && navMenu) {
+            navMenu.style.display = "";
+            navMenu.style.flexDirection = "";
+            navMenu.style.position = "";
+            navMenu.style.top = "";
+            navMenu.style.left = "";
+            navMenu.style.right = "";
+            navMenu.style.background = "";
+            navMenu.style.padding = "";
+            navMenu.style.boxShadow = "";
+            navMenu.style.zIndex = "";
+            navMenu.style.gap = "";
+          }
+        });
+      }
+
+      // Go Back Function
+      function goBack() {
+        if (
+          document.referrer &&
+          document.referrer.includes(window.location.hostname)
+        ) {
+          window.history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      }
+
+      // Load Article Detail
+      function loadArticleDetail() {
+        // Get article ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get("id");
+
+        if (!articleId) {
+          showError("No article specified");
+          return;
+        }
+
+        // Get article data from localStorage
+        const savedArticle = localStorage.getItem("currentArticle");
+
+        if (savedArticle) {
+          try {
+            currentArticle = JSON.parse(savedArticle);
+            renderArticleDetail();
+
+            // Load related articles
+            loadRelatedArticles(currentArticle.category || "general");
+          } catch (error) {
+            console.error("Error parsing article data:", error);
+            showError("Failed to load article");
+          }
+        } else {
+          showError("Article not found in local storage");
+        }
+      }
+
+      // Render Article Detail
+      function renderArticleDetail() {
+        if (!currentArticle) return;
+
+        // Hide loading state
+        document.getElementById("loading-state").style.display = "none";
+
+        // Show content sections
+        document.getElementById("detail-header").style.display = "block";
+        document.getElementById("detail-body").style.display = "block";
+        document.getElementById("share-section").style.display = "block";
+        document.getElementById("original-source").style.display = "block";
+
+        // Set page title
+        document.title = `${currentArticle.title} | Newsround`;
+
+        // Set image
+        const imageElement = document.getElementById("detail-image");
+        if (currentArticle.urlToImage) {
+          imageElement.src = currentArticle.urlToImage;
+          imageElement.alt = currentArticle.title;
+          imageElement.style.display = "block";
+        } else {
+          // Use placeholder image
+          imageElement.src =
+            "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+          imageElement.alt = "News image placeholder";
+          imageElement.style.display = "block";
+        }
+
+        // Set category
+        const category = currentArticle.category || "general";
+        document.getElementById("detail-category").textContent =
+          category.charAt(0).toUpperCase() + category.slice(1);
+
+        // Set date
+        const publishedDate = new Date(
+          currentArticle.publishedAt
+        ).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        document.getElementById("detail-date").textContent = publishedDate;
+
+        // Set title
+        document.getElementById("detail-title").textContent =
+          currentArticle.title || "No Title Available";
+
+        // Set source
+        const sourceName = currentArticle.source?.name || "Unknown Source";
+        document.getElementById(
+          "detail-source"
+        ).textContent = `Source: ${sourceName}`;
+
+        // Set author
+        const author = currentArticle.author || "Unknown Author";
+        document.getElementById(
+          "detail-author"
+        ).textContent = `Author: ${author}`;
+
+        // Set description
+        const description =
+          currentArticle.description ||
+          "No description available for this article.";
+        document.getElementById("detail-description").textContent = description;
+
+        // Generate article content
+        const contentElement = document.getElementById("detail-content-text");
+        const fullContent = generateArticleContent(
+          description,
+          currentArticle.content
+        );
+        contentElement.innerHTML = fullContent;
+
+        // Set original source link
+        const originalLink = document.getElementById("original-link");
+        if (currentArticle.url) {
+          originalLink.href = currentArticle.url;
+        } else {
+          document.getElementById("original-source").style.display = "none";
+        }
+
+        // Setup share links
+        setupShareLinks();
+      }
+
+      // Generate Article Content
+      function generateArticleContent(description, content) {
+        let html = "";
+
+        // Start with description
+        html += `<p><strong>${description}</strong></p>`;
+
+        // If we have content from API, use it
+        if (content) {
+          // Remove the last part (source attribution) if present
+          const cleanContent = content.split("[")[0].trim();
+          const paragraphs = cleanContent
+            .split(". ")
+            .filter((p) => p.length > 0);
+
+          paragraphs.forEach((paragraph, index) => {
+            if (index < 3) {
+              // Limit to first 3 paragraphs for readability
+              html += `<p>${paragraph}.</p>`;
+            }
+          });
+
+          // Add a blockquote for emphasis
+          html += `
+                    <blockquote>
+                        <p>"This article provides important insights into current events and developments."</p>
+                    </blockquote>
+                `;
+
+          // Add more paragraphs if available
+          if (paragraphs.length > 3) {
+            paragraphs.slice(3, 6).forEach((paragraph) => {
+              html += `<p>${paragraph}.</p>`;
+            });
+          }
+        } else {
+          // Generate placeholder content
+          html += `
+                    <p>This news article covers important developments that are currently unfolding in the world. 
+                    The full context and implications are still being analyzed by experts in the field.</p>
+                    
+                    <h3>Key Developments</h3>
+                    <p>The situation described in this article represents a significant development in its respective field. 
+                    Experts are closely monitoring the situation for further updates and implications.</p>
+                    
+                    <blockquote>
+                        <p>"News of this nature requires careful consideration of all available information before drawing conclusions." 
+                        - News Analysis Team</p>
+                    </blockquote>
+                    
+                    <h3>Additional Context</h3>
+                    <ul>
+                        <li>Multiple sources have reported on this development</li>
+                        <li>Experts are analyzing potential impacts</li>
+                        <li>Related stories provide additional context</li>
+                        <li>Further updates are expected as the situation develops</li>
+                    </ul>
+                    
+                    <h3>What This Means</h3>
+                    <p>The implications of this news could be significant for various sectors. 
+                    Readers are encouraged to follow updates as more information becomes available through official channels.</p>
+                `;
+        }
+
+        return html;
+      }
+
+      // Load Related Articles
+      async function loadRelatedArticles(category) {
+        try {
+          // In a real application, you would fetch from your API
+          // For now, we'll use localStorage or generate related articles
+
+          // Try to get related articles from localStorage
+          const savedRelated = localStorage.getItem("relatedArticles");
+          if (savedRelated) {
+            relatedArticles = JSON.parse(savedRelated);
+          } else {
+            // Generate related articles based on current article
+            relatedArticles = generateRelatedArticles(category);
+          }
+
+          if (relatedArticles.length > 0) {
+            renderRelatedArticles();
+          } else {
+            document.getElementById("related-articles").style.display = "none";
+          }
+        } catch (error) {
+          console.error("Error loading related articles:", error);
+          document.getElementById("related-articles").style.display = "none";
+        }
+      }
+
+      // Generate Related Articles
+      function generateRelatedArticles(category) {
+        // This is mock data - in a real app, you would fetch from API
+        const mockArticles = [
+          {
+            title: `Latest Developments in ${
+              category.charAt(0).toUpperCase() + category.slice(1)
+            }`,
+            description: `New information has emerged about recent developments in the ${category} sector.`,
+            urlToImage:
+              "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            publishedAt: new Date().toISOString(),
+            source: { name: "Related Source" },
+            category: category,
+          },
+          {
+            title: `Expert Analysis: What's Next for ${
+              category.charAt(0).toUpperCase() + category.slice(1)
+            }`,
+            description: `Industry experts weigh in on future trends and predictions.`,
+            urlToImage:
+              "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w-400&q=80",
+            publishedAt: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+            source: { name: "Analysis Daily" },
+            category: category,
+          },
+          {
+            title: "Global Impact Assessment",
+            description:
+              "How recent events are affecting markets and communities worldwide.",
+            urlToImage:
+              "https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            publishedAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+            source: { name: "Global News Network" },
+            category: category,
+          },
+        ];
+
+        return mockArticles;
+      }
+
+      // Render Related Articles
+      function renderRelatedArticles() {
+        const relatedGrid = document.getElementById("related-grid");
+
+        if (!relatedArticles || relatedArticles.length === 0) {
+          document.getElementById("related-articles").style.display = "none";
+          return;
+        }
+
+        let html = "";
+
+        relatedArticles.forEach((article, index) => {
+          const imageUrl =
+            article.urlToImage ||
+            "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80";
+          const publishedDate = new Date(
+            article.publishedAt
+          ).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+          const sourceName = article.source?.name || "Unknown Source";
+          const articleId = `related-${Date.now()}-${index}`;
+
+          html += `
+                    <div class="news-card" onclick="viewRelatedArticle(${index})">
+                        <img src="${imageUrl}" alt="${
+            article.title
+          }" class="news-image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">${
+                                  article.category?.toUpperCase() || "GENERAL"
+                                }</span>
+                                <span>${publishedDate}</span>
+                            </div>
+                            <h3 class="news-title">${
+                              article.title || "No Title"
+                            }</h3>
+                            <p class="news-description">${
+                              article.description || "No description available"
+                            }</p>
+                            <div class="news-meta">
+                                <span>${sourceName}</span>
+                                <div class="read-more">
+                                    Read More <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        });
+
+        relatedGrid.innerHTML = html;
+
+        // Show related articles section
+        document.getElementById("related-articles").style.display = "block";
+      }
+
+      // View Related Article
+      function viewRelatedArticle(index) {
+        if (relatedArticles[index]) {
+          // Save current article for back navigation
+          localStorage.setItem(
+            "previousArticle",
+            JSON.stringify(currentArticle)
+          );
+
+          // Set new article as current
+          localStorage.setItem(
+            "currentArticle",
+            JSON.stringify(relatedArticles[index])
+          );
+
+          // Reload page with new article
+          window.location.href = `news-detail.html?id=${Date.now()}`;
+        }
+      }
+
+      // Setup Share Links
+      function setupShareLinks() {
+        if (!currentArticle) return;
+
+        const pageUrl = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(
+          currentArticle.title || "Interesting News Article"
+        );
+        const text = encodeURIComponent(
+          currentArticle.description ||
+            "Check out this interesting news article"
+        );
+
+        // Facebook share
+        const facebookBtn = document.getElementById("share-facebook");
+        facebookBtn.onclick = () => {
+          window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
+            "_blank",
+            "width=600,height=400"
+          );
+        };
+
+        // Twitter share
+        const twitterBtn = document.getElementById("share-twitter");
+        twitterBtn.onclick = () => {
+          window.open(
+            `https://twitter.com/intent/tweet?url=${pageUrl}&text=${text}`,
+            "_blank",
+            "width=600,height=400"
+          );
+        };
+
+        // LinkedIn share
+        const linkedinBtn = document.getElementById("share-linkedin");
+        linkedinBtn.onclick = () => {
+          window.open(
+            `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${title}&summary=${text}`,
+            "_blank",
+            "width=600,height=400"
+          );
+        };
+
+        // WhatsApp share
+        const whatsappBtn = document.getElementById("share-whatsapp");
+        whatsappBtn.onclick = () => {
+          window.open(
+            `https://wa.me/?text=${text}%20${pageUrl}`,
+            "_blank",
+            "width=600,height=400"
+          );
+        };
+      }
+
+      // Show Error
+      function showError(message) {
+        document.getElementById("loading-state").style.display = "none";
+        document.getElementById("error-state").style.display = "block";
+
+        const errorTitle = document.querySelector("#error-state h2");
+        if (errorTitle) {
+          errorTitle.textContent = message || "Article Not Found";
+        }
+      }
+
+      // Back to Top functionality
+      const backToTopBtn = document.getElementById("back-to-top");
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add("visible");
+        } else {
+          backToTopBtn.classList.remove("visible");
+        }
+      });
+    </script>
+  </body>
+</html>
