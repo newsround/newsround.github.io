@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://game-vibe.github.io/sitemap.xml
